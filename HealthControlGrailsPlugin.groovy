@@ -1,3 +1,6 @@
+import com.developerb.healtcontrol.artefact.HealthControlArtefactHandler
+import com.developerb.healthcontrol.HealthControl
+
 class HealthControlGrailsPlugin {
 
     def version = "0.1"
@@ -14,45 +17,64 @@ class HealthControlGrailsPlugin {
 Automated control of services, resources and other things that might fail from time to time.
 '''
 
-    // URL to the plugin's documentation
+    def watchedResources = "file:./grails-app/health-controls/**/*HealthControl.groovy"
+    def artefacts = [ HealthControlArtefactHandler ]
+
     def documentation = "http://grails.org/plugin/health-control"
-
-    // Extra (optional) plugin metadata
-
-    // License: one of 'APACHE', 'GPL2', 'GPL3'
     def license = "APACHE"
 
-    // Details of company behind the plugin (if there is one)
     def organization = [ name: "Developer-B", url: "http://www.developer-b.com/" ]
-
-    // Location of the plugin's issue tracker.
-//    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPMYPLUGIN" ]
-
-    // Online location of the plugin's browseable source code.
+    def issueManagement = [ system: "GitHub", url: "http://github.com/kimble/grails-health-control/issues" ]
     def scm = [ url: "http://github.com/kimble/grails-health-control/" ]
 
-    def doWithWebDescriptor = { xml -> }
-    def doWithSpring = { }
+    def doWithSpring = {
+        // Configure realms defined in the project.
+        def healthControlBeans = []
+        application.healthControlClasses.each { healthControlClass ->
+            log.info "Registering health control: ${healthControlClass.fullName}"
 
-    def doWithDynamicMethods = { ctx ->
-        // TODO Implement registering dynamic methods to classes (optional)
+            configureHealthControl.delegate = delegate
+            healthControlBeans << configureHealthControl(healthControlClass)
+        }
     }
+
+    def configureHealthControl = { grailsClass ->
+        def beanName = grailsClass.shortName + "Instance"
+
+        // Should implement interface
+        if (!HealthControl.isAssignableFrom(grailsClass.clazz)) {
+            throw new IllegalStateException("${grailsClass} should implement the HealthControl interface")
+        }
+
+        // Create the health control bean.
+        "${beanName}"(grailsClass.clazz) { bean ->
+            bean.autowire = true
+        }
+
+        return beanName
+    }
+
 
     def doWithApplicationContext = { applicationContext ->
         // TODO Implement post initialization spring config (optional)
     }
 
     def onChange = { event ->
-        // TODO Implement code that is executed when any artefact that this plugin is
-        // watching is modified and reloaded. The event contains: event.source,
-        // event.application, event.manager, event.ctx, and event.plugin.
+        if (application.isHealthControlClass(event.source)) {
+            def healthControlClass = application.addArtefact(HealthControlArtefactHandler.TYPE, event.source)
+            def beanDefinitions = beans {
+                "${healthControlClass.shortName}Instance"(healthControlClass.clazz) { bean ->
+                    bean.autowire = true
+                }
+            }
+            // now that we have a BeanBuilder calling registerBeans and passing the app ctx will
+            // register the necessary beans with the given app ctx
+            beanDefinitions.registerBeans(event.ctx)
+        }
     }
 
     def onConfigChange = { event ->
-        // TODO Implement code that is executed when the project configuration changes.
-        // The event is the same as for 'onChange'.
+        // ...
     }
-
-    def onShutdown = { event -> }
 
 }
