@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="refresh" content="60">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Health Control - ${applicationName}</title>
@@ -27,6 +28,9 @@
         margin: 30px 0;
     }
 
+    h1 {
+        border-bottom: 5px solid #474242
+    }
 
     .footer {
         margin-top: 5em;
