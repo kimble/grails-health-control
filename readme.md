@@ -18,7 +18,17 @@ The plugin supports simple access restriction out of the box. This can be config
     }
 
 
-Status codes
+The main (only) concept
+-----------------------
+
+`HealthControl` is the only concept in the plugin. It has to implement the `HealthControl` interface and the name has to end with _HealthControl_. The implementation goes into a `health-controls` folder under `grails-app`.
+
+Each implementation has to have a short and concise single line name and description + a configured timeout in milliseconds. The `execute` method have to return a `StateOfHealth` instance.
+
+The health of whatever is being monitored can be "healthy", "frail" or "dead".
+
+
+Http status codes
 ------------
 
 The endpoint will return with a http `200 Ok` response if all checks are okay or fragile, `501 Not Implemented` if no health controls are implemented and finally `500 Internal Service Error` if one or more health controls fails or returns the `dead` code.
@@ -30,6 +40,28 @@ Content negotiation - Alternative data formats
 Provided that you've configured Grails with mime types for content type negotiation you can request json and xml in addition to html by passing the appropriate `Accept` header with your request. Although the content negotiation support in Grails seems to be fairly fragile / broken when it comes to dealing with the accept header so you might have to add .json to the request path like `../your/path/healthControl.json?secret=...`.
 
 See: http://grails.org/doc/latest/guide/single.html#contentNegotiation
+
+
+Health Control ideas
+--------------------
+
+Feel free to add your idea to the list or send a pull request with an implementation!
+
+* Write / read to database, no-sql or old fashioned
+* Ping external soap / rest services (SLAs..)
+* Check external service usage quotas
+* Available disk space
+* Verify that storage folders can be written to
+* Jvm thread deadlocks
+
+
+Pro tip: Free monitoring with Google App Script
+------------------------------------------------
+
+It's pretty straight forward to write a Google App Script using Google App Script that periodically polls the dashboard and notifies you via email, or even phone using a service like Twilio when the Health Control Dashboard page returns a non 200 status code.
+
+https://developers.google.com/apps-script/
+http://www.twilio.com/
 
 
 Example
@@ -59,8 +91,8 @@ All your health control implementations goes into `grails-app/health-controls/co
     }
 
 
-Roadmap and things to do..
---------------------------
+Roadmap, bugs and things to do..
+--------------------------------
 
-* "Timeout bug"
-* Add some common / sample health control implementations that can be installed via a script
+* "Timeout bug" - I've seen a strange bug related to timeouts that I've not been able to reproduce
+* Add some common / sample health control implementations either via abstract classes or as templates installable with a script.
