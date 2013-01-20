@@ -23,6 +23,18 @@ log4j = {
     warn   'org.mortbay.log'
 }
 
+grails.mime.types = [
+        xml: ['text/xml', 'application/xml'],
+        text: 'text-plain',
+        js: 'text/javascript',
+        rss: 'application/rss+xml',
+        atom: 'application/atom+xml',
+        css: 'text/css',
+        csv: 'text/csv',
+        all: '*/*',
+        json: 'text/json',
+        html: ['text/html','application/xhtml+xml']
+]
 
 healthControl {
     secret = "my-secret"

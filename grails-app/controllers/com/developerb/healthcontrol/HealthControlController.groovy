@@ -1,8 +1,10 @@
 package com.developerb.healthcontrol
 
+import grails.converters.JSON
+import grails.converters.XML
 import org.codehaus.groovy.grails.commons.GrailsApplication
 
-import static java.util.UUID.randomUUID
+import static com.developerb.healthcontrol.HealthLevel.DEAD
 
 /**
  *
@@ -21,14 +23,52 @@ class HealthControlController {
             response.status = 401
             return false
         }
+        else if (healthControlService.healthControls.length == 0) {
+            response.status = 501
+            return false
+        }
     }
 
 
     def index() {
-        [
-            healthReports: healthControlService.reportAll(),
-            applicationName : grailsApplication.metadata.get("app.name")
+        def reports = healthControlService.reportAll()
+        def appName = grailsApplication.metadata.get("app.name")
+
+        if (reports.any { it.level == DEAD }) {
+            response.status = 500
+        }
+
+        def data = [
+            healthReports: reports,
+            applicationName : appName
         ]
+
+        withFormat {
+            html { data }
+            xml { render simplify(data) as XML }
+            json { render simplify(data) as JSON }
+        }
+    }
+
+    private def simplify(Map<String, Object> input) {
+        return [
+            applicationName: input.applicationName,
+            healthReports: simplifyReports(input.healthReports)
+        ]
+    }
+
+    private def simplifyReports(List<HealthReport> reports) {
+        return reports.collect { report ->
+            [
+                name: report.name,
+                description: report.description,
+
+                level: report.stateOfHealth.level.toString(),
+                message: report.stateOfHealth.message,
+                trouble: report.stateOfHealth.trouble,
+                props: report.stateOfHealth.properties
+            ]
+        }
     }
 
 }

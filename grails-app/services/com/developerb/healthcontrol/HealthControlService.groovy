@@ -66,7 +66,7 @@ class HealthControlService implements DisposableBean {
     }
 
 
-    private HealthControl[] getHealthControls() {
+    HealthControl[] getHealthControls() {
         grailsApplication.mainContext.getBeansOfType(HealthControl).values()
     }
 

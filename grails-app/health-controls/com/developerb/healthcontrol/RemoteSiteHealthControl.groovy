@@ -14,7 +14,7 @@ class RemoteSiteHealthControl implements HealthControl {
 
     def siteUrls = [
             "Google" : "http://www.google.com/",
-            "Bing!!" : "http://www.bing.com/"
+            "Bing" : "http://www.bing.com/"
     ]
 
     String name = "Remote site"

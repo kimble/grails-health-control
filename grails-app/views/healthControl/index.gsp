@@ -18,10 +18,10 @@
     }
 
 
-        /* Custom container */
+    /* Custom container */
     .container-narrow {
         margin: 0 auto;
-        max-width: 700px;
+        max-width: 800px;
     }
 
     .container-narrow > hr {
@@ -31,6 +31,7 @@
 
     .footer {
         color: #aaa;
+        margin-top: 3em;
     }
 
     .control-row {
@@ -76,7 +77,7 @@
 <body>
 
 <div class="container-narrow">
-    <h1 style="margin-bottom: 1em">Health Control <small> - ${applicationName}</small></h1>
+    <h1 style="margin-bottom: 1em"><span class="icon-user-md"></span> Health Control <small> - ${applicationName}</small></h1>
 
 
 

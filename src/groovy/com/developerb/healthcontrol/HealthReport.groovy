@@ -19,6 +19,10 @@ class HealthReport implements Comparable<HealthReport> {
         stateOfHealth.addProperty(key, value)
     }
 
+    HealthLevel getLevel() {
+        stateOfHealth.level
+    }
+
     @Override
     int compareTo(HealthReport other) {
         def diff = stateOfHealth.compareTo(other.stateOfHealth)
