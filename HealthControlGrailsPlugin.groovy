@@ -1,5 +1,7 @@
 import com.developerb.healtcontrol.artefact.HealthControlArtefactHandler
 import com.developerb.healthcontrol.HealthControl
+import com.developerb.healthcontrol.HealthControlController
+import org.springframework.context.ApplicationContext
 
 class HealthControlGrailsPlugin {
 
@@ -52,11 +54,6 @@ Automated control of services, resources and other things that might fail from t
         }
 
         return beanName
-    }
-
-
-    def doWithApplicationContext = { applicationContext ->
-        // TODO Implement post initialization spring config (optional)
     }
 
     def onChange = { event ->

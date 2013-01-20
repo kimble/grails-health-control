@@ -22,3 +22,8 @@ log4j = {
 
     warn   'org.mortbay.log'
 }
+
+
+healthControl {
+    secret = "my-secret"
+}
