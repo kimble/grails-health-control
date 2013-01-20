@@ -36,6 +36,9 @@ Example
 
 All your health control implementations goes into `grails-app/health-controls/com/company/.../xxxHealthControl.groovy`.
 
+    import static com.developerb.healthcontrol.StateOfHealth.dead
+    import static com.developerb.healthcontrol.StateOfHealth.healthy
+
     class ArithmeticHealthControl implements HealthControl {
 
         String name = "Arithmetic"
