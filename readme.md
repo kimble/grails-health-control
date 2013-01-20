@@ -21,15 +21,15 @@ The plugin supports simple access restriction out of the box. This can be config
 The main (only) concept
 -----------------------
 
-`HealthControl` is the only concept in the plugin. It has to implement the `HealthControl` interface and the name has to end with _HealthControl_. The implementation goes into a `health-controls` folder under `grails-app`.
+Automated "health control" is the only concept in the plugin. Each implementation has to implement the `HealthControl` interface, the name has to end with _HealthControl_ and be placed in a `health-controls` folder under `grails-app`.
 
-Each implementation has to have a short and concise single line name and description + a configured timeout in milliseconds. The `execute` method have to return a `StateOfHealth` instance.
+Each implementation must be given a short and concise, single line name, description + a configured timeout in milliseconds. The `execute` method have to return a `StateOfHealth` instance.
 
 The health of whatever is being monitored can be "healthy", "frail" or "dead".
 
 
 Http status codes
-------------
+-----------------
 
 The endpoint will return with a http `200 Ok` response if all checks are okay or fragile, `501 Not Implemented` if no health controls are implemented and finally `500 Internal Service Error` if one or more health controls fails or returns the `dead` code.
 
@@ -37,7 +37,7 @@ The endpoint will return with a http `200 Ok` response if all checks are okay or
 Content negotiation - Alternative data formats
 ----------------------------------------------
 
-Provided that you've configured Grails with mime types for content type negotiation you can request json and xml in addition to html by passing the appropriate `Accept` header with your request. Although the content negotiation support in Grails seems to be fairly fragile / broken when it comes to dealing with the accept header so you might have to add .json to the request path like `../your/path/healthControl.json?secret=...`.
+Provided that you've configured Grails with mime types for content type negotiation you can (in theory) request json and xml in addition to html by passing the appropriate `Accept` header with your request. Although, in practice the content negotiation support in Grails seems to be fairly fragile / broken when it comes to dealing with the accept header so you might have to add .json to the request path like `../your/path/healthControl.json?secret=...`.
 
 See: http://grails.org/doc/latest/guide/single.html#contentNegotiation
 
