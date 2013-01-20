@@ -3,8 +3,11 @@ package com.developerb.healthcontrol
 import org.springframework.beans.factory.DisposableBean
 
 import java.util.concurrent.Callable
+import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeoutException
 
+import static com.developerb.healthcontrol.HealthLevel.DEAD
 import static java.lang.System.currentTimeMillis
 import static java.util.concurrent.TimeUnit.MILLISECONDS
 
@@ -12,11 +15,11 @@ class HealthControlService implements DisposableBean {
 
     static transactional = false
 
-    def grailsApplication
+    def healthControlRepository
     def executor = Executors.newSingleThreadExecutor()
 
     def reportAll() {
-        return healthControls.collect { HealthControl hc ->
+        return healthControlRepository.healthControls.collect { HealthControl hc ->
             reportHealthWithTiming(hc)
         }
     }
@@ -37,8 +40,17 @@ class HealthControlService implements DisposableBean {
             def state = pending.get(control.timeoutMillis, MILLISECONDS)
             return new HealthReport(control, state)
         }
+        catch (TimeoutException ex) {
+            def state = new StateOfHealth(DEAD, "Timeout: Maximum execution time of ${control.timeoutMillis}ms exceeded", ex)
+            return new HealthReport(control, state)
+        }
+        catch (ExecutionException ex) {
+            def cause = ex.cause
+            def state = new StateOfHealth(DEAD, "Exception: ${cause.message}", cause)
+            return new HealthReport(control, state)
+        }
         catch (Throwable trouble) {
-            def state = new StateOfHealth(trouble)
+            def state = new StateOfHealth(DEAD, "Exception: ${trouble.message}", trouble)
             return new HealthReport(control, state)
         }
     }
@@ -63,11 +75,6 @@ class HealthControlService implements DisposableBean {
                 return new StateOfHealth(ex)
             }
         }
-    }
-
-
-    HealthControl[] getHealthControls() {
-        grailsApplication.mainContext.getBeansOfType(HealthControl).values()
     }
 
     @Override

@@ -7,6 +7,7 @@ The whole thing is heavily inspired by the awesome Metrics library by Yammer: ht
 
 ![Screenshot](https://github.com/kimble/grails-health-control/raw/master/docs/screenshots/dashboard.png)
 
+
 Access control 
 --------------
 
@@ -57,8 +58,9 @@ All your health control implementations goes into `grails-app/health-controls/co
 
     }
 
+
 Roadmap and things to do..
---------------
+--------------------------
 
 * "Timeout bug"
 * Add some common / sample health control implementations that can be installed via a script
