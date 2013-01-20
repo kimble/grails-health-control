@@ -34,7 +34,7 @@ See: http://grails.org/doc/latest/guide/single.html#contentNegotiation
 Example
 -------
 
-All your health control implementations goes into `grails-app/health-controls/xxxHealthControl.groovy`.
+All your health control implementations goes into `grails-app/health-controls/com/company/.../xxxHealthControl.groovy`.
 
     class ArithmeticHealthControl implements HealthControl {
 
@@ -54,8 +54,8 @@ All your health control implementations goes into `grails-app/health-controls/xx
 
     }
 
-Things to do..
+Roadmap and things to do..
 --------------
 
 * "Timeout bug"
-
+* Add some common / sample health control implementations that can be installed via a script

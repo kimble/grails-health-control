@@ -1,7 +1,5 @@
 import com.developerb.healtcontrol.artefact.HealthControlArtefactHandler
 import com.developerb.healthcontrol.HealthControl
-import com.developerb.healthcontrol.HealthControlController
-import org.springframework.context.ApplicationContext
 
 class HealthControlGrailsPlugin {
 
@@ -9,7 +7,8 @@ class HealthControlGrailsPlugin {
     def grailsVersion = "2.2 > *"
 
     def pluginExcludes = [
-        "grails-app/views/error.gsp"
+        "grails-app/views/error.gsp",
+        "grails-app/health-controls/**",
     ]
 
     def title = "Health Control"
