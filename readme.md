@@ -31,6 +31,29 @@ Provided that you've configured Grails with mime types for content type negotiat
 See: http://grails.org/doc/latest/guide/single.html#contentNegotiation
 
 
+Example
+-------
+
+All your health control implementations goes into `grails-app/health-controls/xxxHealthControl.groovy`.
+
+    class ArithmeticHealthControl implements HealthControl {
+
+        String name = "Arithmetic"
+        String description = "Basic arithmetic health controls"
+        Long timeoutMillis = 50
+
+        @Override
+        StateOfHealth execute() {
+            if (2 + 2 == 4) {
+                return healthy("Everything is alright with the universe")
+            }
+            else {
+                return dead("Oh my, arithmetic is broken!")
+            }
+        }
+
+    }
+
 Things to do..
 --------------
 
