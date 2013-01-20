@@ -5,9 +5,6 @@ Health control artefacts for Grails. Implement simple checks to verify the sanit
 
 The whole thing is heavily inspired by the awesome Metrics library by Yammer: http://metrics.codahale.com/
 
-Screenshot
-----------
-
 ![Screenshot](https://github.com/kimble/grails-health-control/raw/master/docs/screenshots/dashboard.png)
 
 Access control 
