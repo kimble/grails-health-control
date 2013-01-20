@@ -34,6 +34,7 @@ class HealthControlService implements DisposableBean {
         def pending = executor.submit(task)
 
         try {
+            println "Waiting ${control.timeoutMillis} ms for ${control.name}"
             def state = pending.get(control.timeoutMillis, MILLISECONDS)
             return new HealthReport(control, state)
         }
