@@ -3,7 +3,12 @@ Grails Health Control
 
 Health control artefacts for Grails. Implement simple checks to verify the sanity of databases, remote services and other fragile things. The results will show up on a simple dashboard.
 
+The whole thing is heavily inspired by the awesome Metrics library by Yammer: http://metrics.codahale.com/
 
+Screenshot
+----------
+
+![Screenshot](https://github.com/kimble/grails-health-control/raw/master/docs/screenshots/dashboard.png)
 
 Access control 
 --------------
