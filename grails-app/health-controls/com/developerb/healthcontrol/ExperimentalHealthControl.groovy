@@ -1,5 +1,7 @@
 package com.developerb.healthcontrol
 
+import static com.developerb.healthcontrol.StateOfHealth.frail
+
 /**
  *
  * @author Kim A. Betti <kim@developer-b.com>
@@ -12,7 +14,7 @@ class ExperimentalHealthControl implements HealthControl {
 
     @Override
     StateOfHealth execute() {
-        return StateOfHealth.frail("I'm a bit frail...")
+        frail("I'm a bit frail...")
     }
 
 }

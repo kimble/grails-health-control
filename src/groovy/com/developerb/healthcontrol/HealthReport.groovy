@@ -6,11 +6,12 @@ package com.developerb.healthcontrol
  */
 class HealthReport implements Comparable<HealthReport> {
 
-    final String name, description;
+    final String type, name, description;
     final StateOfHealth stateOfHealth;
 
     protected HealthReport(HealthControl control, StateOfHealth stateOfHealth) {
         this.name = control.name
+        this.type = control.class.simpleName
         this.description = control.description
         this.stateOfHealth = stateOfHealth
     }

@@ -30,7 +30,7 @@ grails.project.dependency.resolution = {
         }
 
         compile ":twitter-bootstrap:2.2.2"
-        runtime ":resources:1.2.RC2"
+        runtime ":resources:1.2.RC2", ":jquery:1.8.3"
 
         test(":spock:0.7") {
             exclude "spock-grails-support"

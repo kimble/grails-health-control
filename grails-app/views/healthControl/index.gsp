@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Health Control - ${applicationName}</title>
-    <r:require modules="bootstrap"/>
-    <r:require modules="fontAwesome"/>
+    <r:require modules="jquery,bootstrap,fontAwesome"/>
 
     <r:layoutResources/>
 
@@ -30,8 +29,11 @@
 
 
     .footer {
+        margin-top: 5em;
+    }
+
+    .footer a {
         color: #aaa;
-        margin-top: 3em;
     }
 
     .control-row {
@@ -41,6 +43,10 @@
     .control-row h4 {
         border-bottom: 1px solid #ddd;
         padding-bottom: 6px;
+    }
+
+    .control-row h4:hover {
+        cursor: pointer;
     }
 
     .control-row h4 span {
@@ -83,11 +89,12 @@
 
     <g:each in="${healthReports.sort()}" var="report">
         <g:set var="stateOfHealth" value="${report.stateOfHealth}" />
+        <g:set var="reportDataId" value="report-${report.type}" />
 
         <div class="control-row level-${stateOfHealth.level.toString().toLowerCase()}">
             <div class="row-fluid">
                 <div class="span12">
-                    <h4>
+                    <h4 data-toggle="collapse" data-target="#${reportDataId}">
                         <g:if test="${stateOfHealth.level == HealthLevel.HEALTHY}">
                             <span class="icon-ok-circle"></span>
                         </g:if>
@@ -104,39 +111,39 @@
                 </div>
             </div>
 
-
-            <div class="row-fluid health-properties">
-                <div class="span6">
-                    <em>${stateOfHealth.message}</em>
-                </div>
-                <div class="span6">
-                    <g:if test="${stateOfHealth.properties}">
-                        <ul class="inline">
-                            <g:each in="${stateOfHealth.properties}" var="property">
-                                <li><strong><span class="icon-angle-right"> </span>${property.key}: </strong> ${property.value}</li>
-                            </g:each>
-                        </ul>
-                    </g:if>
-                </div>
-            </div>
-
-
-            <g:if test="${stateOfHealth.trouble}">
-                <div class="row-fluid">
-                    <div class="span12">
-                        <pre>${org.apache.commons.lang.exception.ExceptionUtils.getStackTrace(stateOfHealth.trouble)}</pre>
+            <div id="${reportDataId}" class="collapse">
+                <div class="row-fluid health-properties">
+                    <div class="span6">
+                        <em>${stateOfHealth.message}</em>
+                    </div>
+                    <div class="span6">
+                        <g:if test="${stateOfHealth.properties}">
+                            <ul class="inline">
+                                <g:each in="${stateOfHealth.properties}" var="property">
+                                    <li><strong><span class="icon-angle-right"> </span>${property.key}: </strong> ${property.value}</li>
+                                </g:each>
+                            </ul>
+                        </g:if>
                     </div>
                 </div>
-            </g:if>
+
+
+                <g:if test="${stateOfHealth.trouble}">
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <pre>${org.apache.commons.lang.exception.ExceptionUtils.getStackTrace(stateOfHealth.trouble)}</pre>
+                        </div>
+                    </div>
+                </g:if>
+            </div>
         </div>
     </g:each>
 
 
 
 
-    <div class="footer">
-        <hr>
-        <p class="pull-right">&copy; Grails Health Control - Developer-B 2012</p>
+    <div class="footer" style="text-align: right">
+        <p><a href="http://github.com/kimble/grails-health-control">&copy; Grails Health Control - Developer-B 2012</a></p>
     </div>
 </div>
 
