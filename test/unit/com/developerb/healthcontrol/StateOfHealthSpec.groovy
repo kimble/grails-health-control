@@ -1,9 +1,8 @@
 package com.developerb.healthcontrol
 
-import spock.lang.Specification
-
 import static com.developerb.healthcontrol.StateOfHealth.frail
 import static com.developerb.healthcontrol.StateOfHealth.healthy
+import spock.lang.Specification
 
 /**
  *

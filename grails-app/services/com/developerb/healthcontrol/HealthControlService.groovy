@@ -1,15 +1,15 @@
 package com.developerb.healthcontrol
 
-import org.springframework.beans.factory.DisposableBean
+import static com.developerb.healthcontrol.HealthLevel.DEAD
+import static java.lang.System.currentTimeMillis
+import static java.util.concurrent.TimeUnit.MILLISECONDS
 
 import java.util.concurrent.Callable
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeoutException
 
-import static com.developerb.healthcontrol.HealthLevel.DEAD
-import static java.lang.System.currentTimeMillis
-import static java.util.concurrent.TimeUnit.MILLISECONDS
+import org.springframework.beans.factory.DisposableBean
 
 class HealthControlService implements DisposableBean {
 
@@ -57,18 +57,17 @@ class HealthControlService implements DisposableBean {
 
 
     static class Task implements Callable<StateOfHealth> {
-        private final HealthControl control;
+        private final HealthControl control
 
         Task(HealthControl control) {
             this.control = control
         }
 
-        @Override
         StateOfHealth call() throws Exception {
             def health = control.execute()
 
             if (health) {
-                return health;
+                return health
             }
             else {
                 def ex = new IllegalStateException("${control.name} returned null!")
@@ -77,7 +76,6 @@ class HealthControlService implements DisposableBean {
         }
     }
 
-    @Override
     void destroy() throws Exception {
         log.info "Destroying health control executor"
         executor.shutdownNow()

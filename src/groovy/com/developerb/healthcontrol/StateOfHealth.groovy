@@ -8,14 +8,14 @@ import static com.developerb.healthcontrol.HealthLevel.*
  */
 class StateOfHealth implements Comparable<StateOfHealth> {
 
-    final HealthLevel level;
-    final String message;
-    final Throwable trouble;
-    final Map properties;
+    final HealthLevel level
+    final String message
+    final Throwable trouble
+    final Map properties
 
 
     StateOfHealth(HealthLevel level, String message, Throwable trouble) {
-        this(level, message, [:]);
+        this(level, message, [:])
 
         this.trouble = trouble
     }
@@ -28,22 +28,21 @@ class StateOfHealth implements Comparable<StateOfHealth> {
     }
 
     static healthy(String message, Map properties = [:]) {
-        return new StateOfHealth(HEALTHY, message, properties);
+        return new StateOfHealth(HEALTHY, message, properties)
     }
 
     static frail(String message, Map properties = [:]) {
-        return new StateOfHealth(FRAIL, message, properties);
+        return new StateOfHealth(FRAIL, message, properties)
     }
 
     static dead(String message, Map properties = [:]) {
-        return new StateOfHealth(DEAD, message, properties);
+        return new StateOfHealth(DEAD, message, properties)
     }
 
     void addProperty(String name, Object value) {
         properties[name] = value
     }
 
-    @Override
     int compareTo(StateOfHealth other) {
         return other.level.ordinal() - level.ordinal()
     }

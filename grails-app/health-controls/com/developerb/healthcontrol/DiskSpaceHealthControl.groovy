@@ -1,10 +1,10 @@
 package com.developerb.healthcontrol
 
-import java.nio.file.FileSystems
-
 import static com.developerb.healthcontrol.HealthLevel.FRAIL
 import static com.developerb.healthcontrol.HealthLevel.HEALTHY
 import static org.apache.commons.io.FileUtils.byteCountToDisplaySize
+
+import java.nio.file.FileSystems
 
 /**
  *
@@ -18,7 +18,6 @@ class DiskSpaceHealthControl implements HealthControl {
     String description = "Monitor available disk space"
     Long timeoutMillis = 500
 
-    @Override
     StateOfHealth execute() {
         def props = [:]
         def message = "Enough usable space on all file systems"

@@ -1,14 +1,14 @@
 package com.developerb.healthcontrol
 
-import spock.lang.Specification
-
-import java.util.concurrent.TimeoutException
-
 import static com.developerb.healthcontrol.HealthLevel.DEAD
 import static com.developerb.healthcontrol.HealthLevel.FRAIL
 import static com.developerb.healthcontrol.HealthLevel.HEALTHY
 import static com.developerb.healthcontrol.StateOfHealth.frail
 import static com.developerb.healthcontrol.StateOfHealth.healthy
+
+import java.util.concurrent.TimeoutException
+
+import spock.lang.Specification
 
 /**
  *
@@ -81,7 +81,6 @@ class HealthControlServiceSpec extends Specification {
         String description = "Sleeps for 100ms"
         Long timeoutMillis = 50
 
-        @Override
         StateOfHealth execute() {
             Thread.sleep(100)
             throw new IllegalStateException("Should have timed out before this exception was thrown")
@@ -95,7 +94,6 @@ class HealthControlServiceSpec extends Specification {
         String description = "Throws an unchecked exception"
         Long timeoutMillis = 50
 
-        @Override
         StateOfHealth execute() {
             throw new IllegalStateException("Uuups..")
         }
@@ -108,7 +106,6 @@ class HealthControlServiceSpec extends Specification {
         String description = "Always healthy"
         Long timeoutMillis = 50
 
-        @Override
         StateOfHealth execute() {
             healthy("I'm always healthy!")
         }
@@ -121,7 +118,6 @@ class HealthControlServiceSpec extends Specification {
         String description = "Always frail"
         Long timeoutMillis = 50
 
-        @Override
         StateOfHealth execute() {
             frail("I'm always frail :-/")
         }

@@ -1,10 +1,10 @@
 package com.developerb.healthcontrol
 
+import static com.developerb.healthcontrol.HealthLevel.DEAD
 import grails.converters.JSON
 import grails.converters.XML
-import org.codehaus.groovy.grails.commons.GrailsApplication
 
-import static com.developerb.healthcontrol.HealthLevel.DEAD
+import org.codehaus.groovy.grails.commons.GrailsApplication
 
 /**
  *
@@ -50,14 +50,14 @@ class HealthControlController {
         }
     }
 
-    private def simplify(Map<String, Object> input) {
+    private simplify(Map<String, Object> input) {
         return [
             applicationName: input.applicationName,
             healthReports: simplifyReports(input.healthReports)
         ]
     }
 
-    private def simplifyReports(List<HealthReport> reports) {
+    private simplifyReports(List<HealthReport> reports) {
         return reports.collect { report ->
             [
                 name: report.name,

@@ -7,16 +7,13 @@ class HealthControlGrailsPlugin {
     def grailsVersion = "2.2 > *"
 
     def pluginExcludes = [
-        "grails-app/views/error.gsp",
         "grails-app/health-controls/**",
     ]
 
     def title = "Health Control"
     def author = "Kim A. Betti"
     def authorEmail = "kim@developer-b.com"
-    def description = '''\
-Automated control of services, resources and other things that might fail from time to time.
-'''
+    def description = 'Automated control of services, resources and other things that might fail from time to time.'
 
     def watchedResources = "file:./grails-app/health-controls/**/*HealthControl.groovy"
     def artefacts = [ HealthControlArtefactHandler ]

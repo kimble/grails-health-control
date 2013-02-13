@@ -21,8 +21,6 @@ class RemoteSiteHealthControl implements HealthControl {
     String description = "Read remote site content"
     Long timeoutMillis = siteUrls.size() * sla * 2
 
-
-    @Override
     StateOfHealth execute() {
         Map props = [:]
         int maxLatency = siteUrls.collect { entry ->
