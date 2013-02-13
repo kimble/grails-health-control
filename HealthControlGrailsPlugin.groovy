@@ -4,7 +4,7 @@ import com.developerb.healthcontrol.HealthControl
 class HealthControlGrailsPlugin {
 
     def version = "0.1"
-    def grailsVersion = "2.2 > *"
+    def grailsVersion = "2.0 > *"
 
     def pluginExcludes = [
         "grails-app/health-controls/**",
