@@ -12,7 +12,6 @@ class ExperimentalHealthControl implements HealthControl {
     String description = "Just experimenting"
     Long timeoutMillis = 50
 
-    @Override
     StateOfHealth execute() {
         frail("I'm a bit frail...")
     }

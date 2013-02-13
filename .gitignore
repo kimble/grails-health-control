@@ -3,7 +3,7 @@
 *.zip
 target/
 plugin.xml
-web-app/WEB-INF/tld/
+web-app/WEB-INF
 out/
 *.iml
 *.iws
@@ -12,3 +12,4 @@ out/
 *.h2.db
 .classpath
 .project
+.settings
