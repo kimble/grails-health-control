@@ -6,8 +6,8 @@ package com.developerb.healthcontrol
  */
 class HealthReport implements Comparable<HealthReport> {
 
-    final String type, name, description;
-    final StateOfHealth stateOfHealth;
+    final String type, name, description
+    final StateOfHealth stateOfHealth
 
     protected HealthReport(HealthControl control, StateOfHealth stateOfHealth) {
         this.name = control.name
@@ -24,7 +24,6 @@ class HealthReport implements Comparable<HealthReport> {
         stateOfHealth.level
     }
 
-    @Override
     int compareTo(HealthReport other) {
         def diff = stateOfHealth.compareTo(other.stateOfHealth)
 

@@ -9,7 +9,6 @@ class ArithmeticHealthControl implements HealthControl {
     String description = "Basic arithmetic health controls"
     Long timeoutMillis = 50
 
-    @Override
     StateOfHealth execute() {
         if (2 + 2 == 4) {
             return healthy("Everything is alright with the universe")

@@ -78,7 +78,6 @@ All your health control implementations goes into `grails-app/health-controls/co
         String description = "Basic arithmetic health controls"
         Long timeoutMillis = 50
 
-        @Override
         StateOfHealth execute() {
             if (2 + 2 == 4) {
                 return healthy("Everything is alright with the universe")
