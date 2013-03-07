@@ -80,10 +80,10 @@ All your health control implementations goes into `grails-app/health-controls/co
 
         StateOfHealth execute() {
             if (2 + 2 == 4) {
-                return healthy("Everything is alright with the universe")
+                healthy("Everything is alright with the universe")
             }
             else {
-                return dead("Oh my, arithmetic is broken!")
+                dead("Oh my, arithmetic is broken!")
             }
         }
 
