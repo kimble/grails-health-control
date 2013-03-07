@@ -67,13 +67,6 @@ class HealthControlServiceSpec extends Specification {
         reports[3].stateOfHealth.message == "I'm always frail :-/"
     }
 
-    def "Executor shuts down on bean destruction"() {
-        when:
-        service.destroy()
-
-        then:
-        service.executor.isShutdown()
-    }
 
     class SleepyHealthControl implements HealthControl {
 

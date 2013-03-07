@@ -13,7 +13,7 @@ class HealthControlService {
 
     static transactional = false
 
-    HealthControlRepository healthControlRepository
+    def healthControlRepository
 
 
     def reportAll() {
