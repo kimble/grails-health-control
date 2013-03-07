@@ -1,27 +1,29 @@
 package com.developerb.healthcontrol
 
-import static com.developerb.healthcontrol.HealthLevel.DEAD
-import static java.lang.System.currentTimeMillis
-import static java.util.concurrent.TimeUnit.MILLISECONDS
-
 import java.util.concurrent.Callable
 import java.util.concurrent.ExecutionException
-import java.util.concurrent.Executors
 import java.util.concurrent.TimeoutException
 
-import org.springframework.beans.factory.DisposableBean
+import static com.developerb.healthcontrol.HealthLevel.DEAD
+import static java.lang.System.currentTimeMillis
+import static java.util.concurrent.Executors.newSingleThreadExecutor
+import static java.util.concurrent.TimeUnit.MILLISECONDS
 
-class HealthControlService implements DisposableBean {
+class HealthControlService {
 
     static transactional = false
 
-    def healthControlRepository
-    def executor = Executors.newSingleThreadExecutor()
+    HealthControlRepository healthControlRepository
+
 
     def reportAll() {
         return healthControlRepository.healthControls.collect { HealthControl hc ->
             reportHealthWithTiming(hc)
         }
+    }
+
+    boolean hasAtLeastOneHealthControl() {
+        return healthControlRepository.healthControls.length > 0
     }
 
     HealthReport reportHealthWithTiming(HealthControl control) {
@@ -32,11 +34,15 @@ class HealthControlService implements DisposableBean {
         return health
     }
 
+    /**
+     * Todo: Is there a better / more efficient way of ensuring that task isn't outliving its timeout?
+     */
     HealthReport reportHealth(HealthControl control) {
         def task = new Task(control)
-        def pending = executor.submit(task)
+        def executor = newSingleThreadExecutor()
 
         try {
+            def pending = executor.submit(task)
             def state = pending.get(control.timeoutMillis, MILLISECONDS)
             return new HealthReport(control, state)
         }
@@ -52,6 +58,9 @@ class HealthControlService implements DisposableBean {
         catch (Throwable trouble) {
             def state = new StateOfHealth(DEAD, "Exception: ${trouble.message}", trouble)
             return new HealthReport(control, state)
+        }
+        finally {
+            executor.shutdownNow()
         }
     }
 
@@ -74,11 +83,6 @@ class HealthControlService implements DisposableBean {
                 return new StateOfHealth(ex)
             }
         }
-    }
-
-    void destroy() throws Exception {
-        log.info "Destroying health control executor"
-        executor.shutdownNow()
     }
 
 }

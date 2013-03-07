@@ -23,7 +23,7 @@ class HealthControlController {
             response.status = 401
             return false
         }
-        else if (healthControlService.healthControls.length == 0) {
+        else if (!healthControlService.hasAtLeastOneHealthControl()) {
             response.status = 501
             return false
         }

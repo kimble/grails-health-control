@@ -13,6 +13,9 @@ class StateOfHealth implements Comparable<StateOfHealth> {
     final Throwable trouble
     final Map properties
 
+    StateOfHealth(Throwable trouble) {
+        this(DEAD, "Exception: ${trouble.message}", trouble)
+    }
 
     StateOfHealth(HealthLevel level, String message, Throwable trouble) {
         this(level, message, [:])

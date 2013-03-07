@@ -1,5 +1,6 @@
 import com.developerb.healtcontrol.artefact.HealthControlArtefactHandler
 import com.developerb.healthcontrol.HealthControl
+import com.developerb.healthcontrol.HealthControlRepository
 
 class HealthControlGrailsPlugin {
 
@@ -33,6 +34,10 @@ class HealthControlGrailsPlugin {
 
             configureHealthControl.delegate = delegate
             healthControlBeans << configureHealthControl(healthControlClass)
+        }
+
+        healthControlRepository(HealthControlRepository) { bean ->
+            bean.autowire = true
         }
     }
 
