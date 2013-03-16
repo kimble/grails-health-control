@@ -6,9 +6,7 @@ import grails.converters.XML
 
 import org.codehaus.groovy.grails.commons.GrailsApplication
 
-/**
- *
- */
+
 class HealthControlController {
 
     static scope = "singleton"
