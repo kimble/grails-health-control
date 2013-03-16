@@ -13,3 +13,18 @@ out/
 .classpath
 .project
 .settings
+
+# Not needed..?
+grails-app/conf/DataSource.groovy
+grails-app/conf/ApplicationResources.groovy
+grails-app/conf/BootStrap.groovy
+grails-app/conf/UrlMappings.groovy
+grails-app/conf/spring/
+grails-app/i18n/
+grails-app/views
+web-app/css/errors.css
+web-app/css/main.css
+web-app/css/mobile.css
+web-app/images/
+web-app/js/
+
