@@ -6,7 +6,6 @@ grails.project.dependency.resolution = {
         excludes 'ehcache'
     }
     log "warn"
-    legacyResolve false
 
     repositories {
         grailsCentral()
