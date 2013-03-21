@@ -36,6 +36,7 @@ grails.mime.types = [
 ]
 
 healthControl {
+    requireSecret = true
     secret = "my-secret"
 }
 

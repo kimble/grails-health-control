@@ -16,12 +16,14 @@ class HealthControlController {
 
 
     def beforeInterceptor = {
-        def providedSecret = request.getParameter("secret")
-        if (providedSecret != grailsApplication.config.healthControl.secret) {
-            response.status = 401
-            return false
+        if(grailsApplication.config.healthControl.requireSecret) {
+            def providedSecret = request.getParameter("secret")
+            if (providedSecret != grailsApplication.config.healthControl.secret) {
+                response.status = 401
+                return false
+            }
         }
-        else if (!healthControlService.hasAtLeastOneHealthControl()) {
+        if (!healthControlService.hasAtLeastOneHealthControl()) {
             response.status = 501
             return false
         }
