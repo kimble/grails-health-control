@@ -69,8 +69,10 @@ Example
 
 All your health control implementations goes into `grails-app/health-controls/com/company/.../xxxHealthControl.groovy`.
 
-    import static com.developerb.healthcontrol.StateOfHealth.dead
-    import static com.developerb.healthcontrol.StateOfHealth.healthy
+    import com.developerb.healthcontrol.HealthControl
+    import com.developerb.healthcontrol.StateOfHealth
+
+    import static com.developerb.healthcontrol.StateOfHealth.*
 
     class ArithmeticHealthControl implements HealthControl {
 
@@ -81,6 +83,9 @@ All your health control implementations goes into `grails-app/health-controls/co
         StateOfHealth execute() {
             if (2 + 2 == 4) {
                 healthy("Everything is alright with the universe")
+            }
+            else if (2 + 2 > 3 && 2 + 2 < 5) {
+                frail("Our integers are confused...")
             }
             else {
                 dead("Oh my, arithmetic is broken!")
