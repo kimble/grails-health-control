@@ -99,4 +99,6 @@ Roadmap, bugs and things to do..
 --------------------------------
 
 * "Timeout bug" - I've seen a strange bug related to timeouts that I've not been able to reproduce
+* Make another release to the Grails Plugin Repository
+* Implement an artefact / api without any compile time dependencies to this plugin allowing other plugins to bundle health checks
 * Add some common / sample health control implementations either via abstract classes or as templates installable with a script.
