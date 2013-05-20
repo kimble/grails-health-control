@@ -1,10 +1,11 @@
 import com.developerb.healtcontrol.artefact.HealthControlArtefactHandler
 import com.developerb.healthcontrol.HealthControl
 import com.developerb.healthcontrol.HealthControlRepository
+import com.developerb.healthcontrol.adapter.RawHealthControlAdapterFactory
 
 class HealthControlGrailsPlugin {
 
-    def version = "0.2"
+    def version = "0.4-SNAPSHOT"
     def grailsVersion = "2.0 > *"
 
     def pluginExcludes = [
@@ -27,52 +28,51 @@ class HealthControlGrailsPlugin {
     def scm = [ url: "http://github.com/kimble/grails-health-control/" ]
 
     def doWithSpring = {
-        // Configure realms defined in the project.
-        def healthControlBeans = []
+        healthControlAdapterFactory(RawHealthControlAdapterFactory)
+        healthControlRepository(HealthControlRepository) { it.autowire = true }
+
+        Closure configureBean = (Closure) configureHealthControlBeans.clone()
+        configureBean.delegate = delegate
+
         application.healthControlClasses.each { healthControlClass ->
-            log.info "Registering health control: ${healthControlClass.fullName}"
-
-            configureHealthControl.delegate = delegate
-            healthControlBeans << configureHealthControl(healthControlClass)
+            configureBean.call(healthControlClass)
         }
-
-        healthControlRepository(HealthControlRepository) { bean ->
-            bean.autowire = true
-        }
-    }
-
-    def configureHealthControl = { grailsClass ->
-        def beanName = grailsClass.shortName + "Instance"
-
-        // Should implement interface
-        if (!HealthControl.isAssignableFrom(grailsClass.clazz)) {
-            throw new IllegalStateException("${grailsClass} should implement the HealthControl interface")
-        }
-
-        // Create the health control bean.
-        "${beanName}"(grailsClass.clazz) { bean ->
-            bean.autowire = true
-        }
-
-        return beanName
     }
 
     def onChange = { event ->
         if (application.isHealthControlClass(event.source)) {
             def healthControlClass = application.addArtefact(HealthControlArtefactHandler.TYPE, event.source)
+            def configureBean = configureHealthControlBeans.clone()
+
             def beanDefinitions = beans {
-                "${healthControlClass.shortName}Instance"(healthControlClass.clazz) { bean ->
-                    bean.autowire = true
-                }
+                configureBean.delegate = delegate
+                configureBean.call(healthControlClass)
             }
+
             // now that we have a BeanBuilder calling registerBeans and passing the app ctx will
             // register the necessary beans with the given app ctx
             beanDefinitions.registerBeans(event.ctx)
         }
     }
 
-    def onConfigChange = { event ->
-        // ...
+    def configureHealthControlBeans = { grailsClass ->
+        log.info "Registering health control: ${grailsClass.fullName}"
+
+        def healthControlBeanName = "${grailsClass.shortName}_HealthControl"
+        def unadaptedBeanName = "${grailsClass.shortName}_UnAdapted"
+
+        if (!HealthControl.isAssignableFrom(grailsClass.clazz)) {
+            "$unadaptedBeanName"(grailsClass.clazz) { bean ->
+                bean.autowire = true
+            }
+
+            "$healthControlBeanName"(healthControlAdapterFactory: "adapt", ref(unadaptedBeanName))
+        }
+        else {
+            "$healthControlBeanName"(grailsClass.clazz) { bean ->
+                bean.autowire = true
+            }
+        }
     }
 
 }
