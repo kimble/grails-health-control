@@ -5,7 +5,7 @@ import com.developerb.healthcontrol.adapter.RawHealthControlAdapterFactory
 
 class HealthControlGrailsPlugin {
 
-    def version = "0.4-SNAPSHOT"
+    def version = "0.4"
     def grailsVersion = "2.0 > *"
 
     def pluginExcludes = [
