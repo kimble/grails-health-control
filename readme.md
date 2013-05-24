@@ -3,7 +3,7 @@ Grails Health Control
 
 Health control artefacts for Grails. Implement simple checks to verify the sanity of databases, remote services and other fragile things. It's all about monitoring and verifying as many assumptions as possible before they bite you in the ass.. The results will show up on a simple dashboard.
 
-The whole thing is heavily inspired by the awesome Metrics library by Yammer: http://metrics.codahale.com/
+The whole thing is heavily inspired by the awesome [Metrics](http://metrics.codahale.com/) library by Yammer. 
 
 ![Screenshot](https://github.com/kimble/grails-health-control/raw/master/docs/screenshots/dashboard.png)
 
@@ -25,7 +25,9 @@ Automated "health control" is the only concept in the plugin. Each implementatio
 
 Each implementation must be given a short and concise, single line name, description + a configured timeout in milliseconds. The `execute` method have to return a `StateOfHealth` instance.
 
-The health of whatever is being monitored can be "healthy", "frail" or "dead".
+The health of whatever is being monitored can be `healthy`, `frail` or `dead`.
+
+**Important:** When a health control exeeds its timeout a best effort will be made to interrupt it, but if the implementation doesn't handle interrupts it might keep running in the background!
 
 
 Http status codes
@@ -39,7 +41,7 @@ Content negotiation - Alternative data formats
 
 Provided that you've configured Grails with mime types for content type negotiation you can (in theory) request json and xml in addition to html by passing the appropriate `Accept` header with your request. Although, in practice the content negotiation support in Grails seems to be fairly fragile / broken when it comes to dealing with the accept header so you might have to add .json to the request path like `../your/path/healthControl.json?secret=...`.
 
-See: http://grails.org/doc/latest/guide/single.html#contentNegotiation
+**See:** http://grails.org/doc/latest/guide/single.html#contentNegotiation
 
 
 Health Control ideas
@@ -55,13 +57,10 @@ Feel free to add your idea to the list or send a pull request with an implementa
 * Jvm thread deadlocks
 
 
-Pro tip: Free monitoring with Google App Script
+**Pro tip:** Free monitoring with Google App Script
 ------------------------------------------------
 
-It's pretty straight forward to write a Google App Script using Google App Script that periodically polls the dashboard and notifies you via email, or even phone using a service like Twilio when the Health Control Dashboard page returns a non 200 status code.
-
-https://developers.google.com/apps-script/
-http://www.twilio.com/
+It's pretty straight forward to write a [Google App Script](https://developers.google.com/apps-script/) that periodically polls the dashboard and notifies you via email, or even phone using a service like [Twilio](http://www.twilio.com/) when the Health Control Dashboard page returns a non 200 status code.
 
 
 Example
