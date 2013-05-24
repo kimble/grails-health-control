@@ -1,6 +1,7 @@
 package com.developerb.healthcontrol
 
 /**
+ * The allowed outcomes of a health control.
  *
  * @author Kim A. Betti <kim@developer-b.com>
  */
