@@ -97,8 +97,7 @@ All your health control implementations goes into `grails-app/health-controls/co
 *Ps! Implementing the HealthControl interface has been optional since 0.4.*
 
 
-Roadmap, bugs and things to do..
---------------------------------
+Roadmap, bugs and things to do before version 1.0
+-------------------------------------------------
 
-* Add lincence file + code headers
 * Add some common / sample health control implementations either via abstract classes or as templates installable with a script.
