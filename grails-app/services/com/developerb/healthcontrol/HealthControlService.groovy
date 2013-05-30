@@ -61,6 +61,9 @@ class HealthControlService {
         }
         finally {
             executor.shutdownNow()
+            if (!executor.isTerminated()) {
+                log.warn("Executor not terminated after health control! Make sure that your health controls respond to interrupts!")
+            }
         }
     }
 
